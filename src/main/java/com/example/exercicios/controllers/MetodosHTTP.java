@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/metodos")
-public class MetodosHTTPController {
+public class MetodosHTTP {
 
 	@GetMapping
 	public String get() {

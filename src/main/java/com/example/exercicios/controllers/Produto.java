@@ -15,43 +15,42 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.exercicios.model.entities.Produto;
 import com.example.exercicios.model.repositories.ProdutoRepository;
 
 @RestController
 @RequestMapping(path = "/api/produtos")
-public class ProdutoController {
+public class Produto {
 
 	@Autowired // Injetando objeto de forma automatica
 	private ProdutoRepository produtoRepository;
 
 //	@PostMapping
 	@RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT })
-	public @ResponseBody Produto salvarProduto(@Valid Produto produto) {
+	public @ResponseBody com.example.exercicios.model.entities.Produto salvarProduto(@Valid com.example.exercicios.model.entities.Produto produto) {
 		produtoRepository.save(produto); // enviado automaticamente
 		return produto;
 	}
 
 	@GetMapping
-	public Iterable<Produto> obterProdutos() {
+	public Iterable<com.example.exercicios.model.entities.Produto> obterProdutos() {
 		return produtoRepository.findAll();
 	}
 	
 	@GetMapping(path = "/nome/{parteNome}")
-	public Iterable<Produto> obterProdutosPorNome(@PathVariable String parteNome) {
+	public Iterable<com.example.exercicios.model.entities.Produto> obterProdutosPorNome(@PathVariable String parteNome) {
 //		return produtoRepository.findByNomeContainingIgnoreCase(parteNome);
 		return produtoRepository.searchByNameLike(parteNome);
 	}
 
 	@GetMapping(path = "/pagina/{numeroPagina}/{qtdePagina}")
-	public Iterable<Produto> obterProdutosPorPagina(@PathVariable int numeroPagina, @PathVariable int qtdePagina) {
+	public Iterable<com.example.exercicios.model.entities.Produto> obterProdutosPorPagina(@PathVariable int numeroPagina, @PathVariable int qtdePagina) {
 		if (qtdePagina >= 5) qtdePagina = 5; // Limitar a quantidade de itens por pagina
 		Pageable page = PageRequest.of(numeroPagina, qtdePagina);
 		return produtoRepository.findAll(page);
 	}
 
 	@GetMapping(path = "/{id}")
-	public Optional<Produto> obterProdutoPorId(@PathVariable int id) {
+	public Optional<com.example.exercicios.model.entities.Produto> obterProdutoPorId(@PathVariable int id) {
 		return produtoRepository.findById(id);
 	}
 
